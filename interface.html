@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vista · animated horizon · visibility</title>
+    <!-- Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,450;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b1a24;
+            font-family: 'Inter', sans-serif;
+            color: #e2eef6;
+            line-height: 1.5;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-grid {
+            max-width: 1260px;
+            width: 100%;
+            background: rgba(17, 37, 47, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 42px;
+            box-shadow: 0 30px 50px -15px rgba(0, 15, 25, 0.8), 0 6px 0 #0a1a22;
+            padding: 40px 44px;
+            border: 1px solid #2d5668;
+            transition: box-shadow 0.3s ease;
+            animation: floatIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes floatIn {
+            0% { opacity: 0; transform: translateY(16px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 44px;
+            border-bottom: 1.5px solid #1c4050;
+            padding-bottom: 20px;
+            transition: border-color 0.2s;
+        }
+        .top-bar:hover { border-color: #3b788b; }
+
+        .project-title { display: flex; flex-direction: column; }
+        .project-label {
+            font-size: 13px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1.2px; color: #9fc7d9;
+        }
+        .project-name {
+            font-size: 28px; font-weight: 650; color: #f0f9ff;
+            margin-top: 6px; letter-spacing: -0.02em;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .project-name span {
+            background: #254c5c; padding: 4px 14px; font-size: 14px;
+            font-weight: 600; border-radius: 40px; color: #d8ecf5;
+            border: 1px solid #438198;
+        }
+        .model-badge {
+            background: #0e1f28; border: 1.5px solid #2c5f6e;
+            border-radius: 100px; padding: 8px 22px; font-size: 15px;
+            font-weight: 550; display: flex; align-items: center; gap: 10px;
+            color: #d0ecf5; box-shadow: 0 2px 0 #0f2e38;
+            transition: all 0.2s;
+        }
+        .model-badge:hover { background: #112d38; border-color: #4c8ca3; }
+
+        .dashboard-panels {
+            display: grid;
+            grid-template-columns: 1.1fr 1.9fr;
+            gap: 40px;
+            margin-bottom: 48px;
+        }
+
+        .input-studio {
+            background: #0f1e26;
+            border-radius: 32px;
+            padding: 28px 26px;
+            border: 1px solid #2b5f6e;
+            box-shadow: 0 8px 0 #0b1e26, inset 0 1px 2px rgba(140,220,240,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s;
+        }
+        .input-studio:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 #0b1e26, inset 0 1px 2px rgba(140,220,240,0.1);
+        }
+
+        .section-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+        }
+        .section-header i {
+            font-size: 1.3rem; color: #a1dfed; background: #1b3d4a;
+            padding: 10px; border-radius: 16px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            transition: rotate 0.3s;
+        }
+        .input-studio:hover .section-header i { rotate: -3deg; }
+
+        .section-header h2 {
+            font-size: 20px; font-weight: 640; color: #e5f3fb;
+            letter-spacing: -0.01em;
+        }
+
+        .param-grid {
+            display: flex; flex-direction: column; gap: 24px;
+        }
+
+        .dual-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        }
+
+        .param-item {
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .param-item label {
+            font-size: 13.5px; font-weight: 600; color: #b1d7e3;
+            display: flex; align-items: center; gap: 6px; letter-spacing: 0.2px;
+        }
+        .param-item label i {
+            font-size: 13px; color: #79c1d4; width: 18px;
+        }
+
+        .input-field {
+            background: #0c1a20; border: 1.5px solid #2e5766;
+            border-radius: 18px; padding: 12px 18px; font-size: 15px;
+            font-weight: 450; color: #e9f3f8; transition: 0.15s;
+            display: flex; align-items: center;
+            box-shadow: inset 0 2px 3px rgba(0,0,0,0.5);
+        }
+        .input-field input {
+            width: 100%; border: none; background: transparent;
+            font-family: 'Inter', sans-serif; font-size: 15px;
+            font-weight: 450; color: #e7f4fc; outline: none;
+        }
+        .input-field span { color: #8bbcd1; }
+        .input-field:focus-within {
+            border-color: #70bedb; box-shadow: 0 0 0 3px rgba(96, 188, 220, 0.12), inset 0 2px 3px rgba(0,0,0,0.5);
+        }
+
+        .visibility-dominant {
+            background: #112a33; border-radius: 32px; padding: 28px 26px;
+            border: 1px solid #2e6270; box-shadow: 0 8px 0 #0a1f26, inset 0 1px 2px rgba(140,230,250,0.05);
+            display: flex; flex-direction: column;
+            transition: box-shadow 0.3s, border-color 0.2s;
+            animation: glowPulse 5s infinite alternate ease-in-out;
+        }
+        @keyframes glowPulse {
+            0% { box-shadow: 0 8px 0 #0a1f26, inset 0 0 10px rgba(100, 200, 240, 0.1); }
+            100% { box-shadow: 0 8px 0 #0a1f26, inset 0 0 20px rgba(130, 220, 255, 0.25); }
+        }
+
+        .max-vis-badge {
+            background: linear-gradient(145deg, #15343e, #0f262f);
+            border-radius: 28px; padding: 24px; border: 1px solid #307080;
+            margin-bottom: 28px; display: flex; justify-content: space-between;
+            align-items: center; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .max-vis-badge::after {
+            content: ''; position: absolute; top: -50%; left: -20%;
+            width: 140%; height: 200%; background: radial-gradient(circle at 30% 30%, rgba(90,210,255,0.08), transparent 60%);
+            opacity: 0; transition: opacity 0.6s;
+        }
+        .max-vis-badge:hover::after { opacity: 1; }
+
+        .vis-distance { display: flex; flex-direction: column; }
+        .vis-label {
+            font-size: 15px; font-weight: 600; color: #b0deec;
+            text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        .vis-number {
+            font-size: 58px; font-weight: 650; color: #f0feff;
+            letter-spacing: -2px; line-height: 1; margin-top: 8px;
+            text-shadow: 0 0 12px rgba(70,200,255,0.4);
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .max-vis-badge:hover .vis-number { transform: scale(1.02); }
+
+        .vis-unit { font-size: 20px; font-weight: 500; color: #a6d4e6; margin-left: 6px; }
+
+        .confidence-ring {
+            background: #123d49; border-radius: 60px; padding: 12px 22px;
+            font-weight: 600; font-size: 15px; color: #dcf5fb;
+            display: flex; align-items: center; gap: 10px;
+            border: 1px solid #529bb2; transition: 0.2s;
+        }
+        .confidence-ring:hover { background: #19525f; border-color: #78c6df; }
+
+        .model-validation {
+            margin-top: 28px; background: #0d222b; border-radius: 24px;
+            padding: 18px 22px; display: flex; align-items: center;
+            justify-content: space-between; border: 1px solid #28606e;
+            transition: background 0.2s;
+        }
+        .model-validation:hover { background: #102b35; }
+
+        .metric { display: flex; flex-direction: column; }
+        .metric-label { font-size: 13px; color: #b4dbe9; font-weight: 500; }
+        .metric-number {
+            font-size: 20px; font-weight: 650; color: #e1f7fe;
+            transition: 0.1s;
+        }
+        .metric-detail { font-size: 13px; color: #8ab7cc; }
+
+        .data-footprint {
+            margin-top: 24px; border-top: 1.5px solid #1f4b58;
+            padding-top: 32px; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap;
+        }
+        .data-stats { display: flex; gap: 36px; }
+        .stat-block { display: flex; align-items: baseline; gap: 8px; }
+        .stat-number { font-size: 24px; font-weight: 660; color: #ddf3fc; }
+        .stat-caption { font-size: 14px; color: #98c1d4; font-weight: 470; }
+
+        .validation-note {
+            background: #0f2832; border-radius: 40px; padding: 12px 28px;
+            border: 1px solid #3d788b; font-size: 15px; font-weight: 500;
+            display: flex; align-items: center; gap: 12px; color: #e0f3fa;
+            transition: background 0.2s;
+        }
+        .validation-note:hover { background: #173a48; }
+
+        .btn {
+            background: #0f2a33; border: 1.5px solid #54a0b5;
+            border-radius: 60px; padding: 16px 28px; font-weight: 640;
+            font-size: 16px; color: #e2f3fb; display: inline-flex;
+            align-items: center; gap: 12px; transition: all 0.2s;
+            cursor: pointer; box-shadow: 0 4px 0 #0f2f3a, inset 0 1px 1px rgba(255,255,255,0.04);
+        }
+        .btn i { font-size: 1rem; color: #97d8eb; transition: transform 0.2s; }
+        .btn:hover { background: #133f4d; border-color: #7acbe6; transform: translateY(-2px); box-shadow: 0 6px 0 #0f2f3a; }
+        .btn:hover i { transform: rotate(-8deg) scale(1.1); }
+        .btn.solid {
+            background: #1c687c; color: white; box-shadow: 0 4px 0 #0f424f;
+            border: none;
+        }
+        .btn.solid i { color: white; }
+
+        .action-row {
+            display: flex; justify-content: flex-end; margin-top: 30px;
+            gap: 20px;
+        }
+
+        .geo-context, .chip-group, .terrain-tag, .terrain-item, [class*="terrain"] {
+            display: none;
+        }
+
+        .model-validation {
+            margin-top: 8px;
+        }
+
+        @keyframes softPulse {
+            0% { text-shadow: 0 0 2px #51b5d4; }
+            50% { text-shadow: 0 0 8px #6fd0f0; }
+            100% { text-shadow: 0 0 2px #51b5d4; }
+        }
+        .confidence-ring i { animation: softPulse 3s infinite; }
+
+        .dashboard-panels {
+            align-items: stretch;
+        }
+
+        .updating {
+            opacity: 0.7;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .error-message {
+            color: #ff8a8a;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-grid">
+        <div class="top-bar">
+            <div class="project-title">
+                <div class="project-label">← vista · animated horizon</div>
+                <div class="project-name">
+                    Vista·range <span>ML powered</span>
+                </div>
+                <div style="font-size: 15px; color: #b0d3e0; margin-top: 10px; max-width: 500px; font-weight: 420;">
+                    connected to trained XGBoost model
+                </div>
+            </div>
+            <div class="model-badge">
+                <i class="fas fa-cloud-moon"></i> 
+                <span>xgboost v2.4 · real predictions</span>
+                <i class="fas fa-chevron-down" style="font-size: 12px; opacity: 0.8;"></i>
+            </div>
+        </div>
+
+        <div class="dashboard-panels">
+            <div class="input-studio">
+                <div class="section-header">
+                    <i class="fas fa-sliders-h"></i>
+                    <h2>Weather inputs</h2>
+                </div>
+                <div class="param-grid">
+                    <div class="dual-row">
+                        <div class="param-item">
+                            <label><i class="fas fa-temperature-low"></i> Temperature</label>
+                            <div class="input-field">
+                                <input type="number" id="temp" step="0.1" placeholder="14.2" value="16.8">
+                                <span>°C</span>
+                            </div>
+                        </div>
+                        <div class="param-item">
+                            <label><i class="fas fa-tint"></i> Humidity</label>
+                            <div class="input-field">
+                                <input type="number" id="hum" step="1" placeholder="72" value="68">
+                                <span>%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dual-row">
+                        <div class="param-item">
+                            <label><i class="fas fa-wind"></i> Wind speed</label>
+                            <div class="input-field">
+                                <input type="number" id="wind" step="0.1" placeholder="5.5" value="7.2">
+                                <span>m/s</span>
+                            </div>
+                        </div>
+                        <div class="param-item">
+                            <label><i class="fas fa-compress-alt"></i> Pressure</label>
+                            <div class="input-field">
+                                <input type="number" id="pres" step="1" placeholder="1013" value="1008">
+                                <span>hPa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <div class="btn" id="resetBtn">
+                        <i class="fas fa-redo-alt"></i> reset
+                    </div>
+                    <div class="btn solid" id="predictBtn">
+                        <i class="fas fa-calculator"></i> predict visibility
+                    </div>
+                </div>
+                <div id="errorMsg" class="error-message"></div>
+                <p style="font-size: 13px; color: #98c1d2; margin-top: 16px; border-top: 1px solid #245a66; padding-top: 18px;">
+                    <i class="fas fa-database" style="margin-right: 6px;"></i> using your trained XGBoost model
+                </p>
+            </div>
+            
+            <div class="visibility-dominant">
+                <div class="max-vis-badge">
+                    <div class="vis-distance">
+                        <span class="vis-label"><i class="fas fa-eye"></i> predicted visibility</span>
+                        <div>
+                            <span class="vis-number" id="visValue">--</span>
+                            <span class="vis-unit">km</span>
+                        </div>
+                        <span style="font-size: 15px; color: #b4deec; margin-top: 6px;" id="localTime">--:-- local</span>
+                    </div>
+                    <div class="confidence-ring" id="confRing">
+                        <i class="fas fa-shield-alt"></i> --% conf.
+                    </div>
+                </div>
+                
+                <div class="model-validation">
+                    <div class="metric">
+                        <span class="metric-label">condition</span>
+                        <span class="metric-number" id="condition">--</span>
+                        <span class="metric-detail"> </span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">model</span>
+                        <span class="metric-number" id="modelType">XGBoost</span>
+                        <span class="metric-detail">2-stage</span>
+                    </div>
+                    <i class="fas fa-check-circle" style="color: #57bcb2; font-size: 1.8rem; opacity: 0.9;"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-footprint">
+            <div class="data-stats">
+                <div class="stat-block"><span class="stat-number">14.3M</span><span class="stat-caption">training points</span></div>
+                <div class="stat-block"><span class="stat-number">8</span><span class="stat-caption">features</span></div>
+                <div class="stat-block"><span class="stat-number">2-stage</span><span class="stat-caption">classifier+regressor</span></div>
+            </div>
+            <div class="validation-note">
+                <i class="fas fa-flask"></i> your trained model
+                <span style="font-weight: 700; margin-left: 8px; background: #1f6173; padding: 4px 10px; border-radius: 60px;">active</span>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 32px; margin-top: 32px; padding-top: 12px; border-top: 1px solid #1f4f5e; color: #b2d4e0; font-size: 14px; flex-wrap: wrap;">
+            <span><i class="fas fa-plane" style="margin-right: 8px; color:#7dcde0;"></i> aviation </span>
+            <span><i class="fas fa-truck" style="margin-right: 8px; color:#7dcde0;"></i> transportation </span>
+            <span><i class="fas fa-hiking" style="margin-right: 8px; color:#7dcde0;"></i> outdoor safety </span>
+            <span style="margin-left: auto;">connected to Flask backend</span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const tempInp = document.getElementById('temp');
+            const humInp = document.getElementById('hum');
+            const windInp = document.getElementById('wind');
+            const presInp = document.getElementById('pres');
+            const visSpan = document.getElementById('visValue');
+            const confSpan = document.getElementById('confRing');
+            const conditionSpan = document.getElementById('condition');
+            const localTimeSpan = document.getElementById('localTime');
+            const predictBtn = document.getElementById('predictBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Update time display
+            function updateTime() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const mins = now.getMinutes().toString().padStart(2, '0');
+                localTimeSpan.textContent = `${hours}:${mins} local`;
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
+
+            // Predict function - connects to Flask backend
+            async function getPrediction() {
+                // Get current hour and month
+                const now = new Date();
+                const hour = now.getHours();
+                const month = now.getMonth() + 1;
+                
+                // Prepare data for backend
+                const data = {
+                    temperature: parseFloat(tempInp.value) || 16.8,
+                    humidity: parseFloat(humInp.value) || 68,
+                    wind_speed: parseFloat(windInp.value) || 7.2,
+                    pressure: parseFloat(presInp.value) || 1008,
+                    hour: hour,
+                    month: month
+                };
+
+                try {
+                    const response = await fetch('/predict', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Update UI with real predictions
+                        visSpan.textContent = result.visibility_km;
+                        confSpan.innerHTML = `<i class="fas fa-shield-alt"></i> ${result.confidence}% conf.`;
+                        conditionSpan.textContent = result.condition;
+                        
+                        // Hide any previous errors
+                        errorMsg.style.display = 'none';
+                    } else {
+                        throw new Error(result.error || 'Prediction failed');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    errorMsg.textContent = '⚠️ Could not connect to model server';
+                    errorMsg.style.display = 'block';
+                    visSpan.textContent = '--';
+                    confSpan.innerHTML = `<i class="fas fa-shield-alt"></i> --% conf.`;
+                    conditionSpan.textContent = 'offline';
+                }
+            }
+
+            // Predict button click
+            predictBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                // Animation
+                const badge = document.querySelector('.max-vis-badge');
+                badge.style.transform = 'scale(1.01)';
+                setTimeout(() => badge.style.transform = 'scale(1)', 150);
+                
+                // Loading state
+                predictBtn.classList.add('updating');
+                visSpan.textContent = '...';
+                
+                await getPrediction();
+                
+                predictBtn.classList.remove('updating');
+            });
+
+            // Reset button
+            resetBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                tempInp.value = '16.8';
+                humInp.value = '68';
+                windInp.value = '7.2';
+                presInp.value = '1008';
+                
+                // Clear prediction
+                visSpan.textContent = '--';
+                confSpan.innerHTML = `<i class="fas fa-shield-alt"></i> --% conf.`;
+                conditionSpan.textContent = '--';
+                errorMsg.style.display = 'none';
+            });
+
+            // Hover animations for stats
+            document.querySelectorAll('.stat-block').forEach(b => {
+                b.addEventListener('mouseenter', () => {
+                    b.style.transform = 'translateY(-2px)';
+                });
+                b.addEventListener('mouseleave', () => {
+                    b.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Auto-predict on page load
+            setTimeout(() => {
+                predictBtn.click();
+            }, 500);
+        })();
+    </script>
+</body>
+</html>
