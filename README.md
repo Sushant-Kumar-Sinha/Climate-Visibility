@@ -70,11 +70,3 @@ The system achieves high robustness even when stress-tested across extreme weath
 * **Smart Mobility APIs:** Low-latency API architecture support for Autonomous Vehicles (AVs) navigating foggy routes.
 * **Deep Learning Upgrade:** Transitioning the architecture to advanced Long Short-Term Memory (LSTM) time-series networks for 48-hour continuous forecasting.
 
----
-
-## 👥 Team Members
-
-* **Sushant Kumar Sinha**
-* **Yash Kumar**
-* **Tushar Kumar**
-* **Sushant Kumar Sahu**
